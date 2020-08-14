@@ -17,57 +17,58 @@ externalDocs:
 servers:
   - url: http://localhost:8080/
 paths:
-  /orders:
+  /sendMoney:
     post:
       tags:
-        - order
-      summary: Submit a new Order
-      operationId: submitOrder
+        - Financial Transaction
+      summary: transfer money
+      operationId: transfer money
       requestBody:
-        description: Order that needs to be submitted
+        description: Transfer money from senders bank account to receivers bank account
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: '#/components/schemas/FinancialTransaction'
         required: true
       responses:
         '201':
-          description: Accepted.
+          description: Created.
         '400':
           description: Bad request.
-        '401':
-          description: Authorization information is missing or invalid.
-  /orders/{orderid}:
-    get:
-      tags:
-        - order
-      summary: Find orders by Id
-      operationId: findOrderById
-      parameters:
-        - in: path
-          name: orderid
-          schema:
-            type: integer
-          required: true
-          description: Numeric ID of the order to find
-      responses:
-        '200':
-          description: OK.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-        '404':
-          description: Not Found.
-        '401':
-          description: Authorization information is missing or invalid.
+        '406':
+          description: Not Acceptable.
 components:
   schemas:
-    Order:
+    FinancialTransaction:
       type: object
+      required:
+        - sender
+        - receiver
+        - amount
+        - nonce
       properties:
-        id:
+        sender:
           type: integer
           format: int
-        product:
+        receiver:
+          type: integer
+          format: int
+        amount:
+          $ref: '#/components/schemas/Amount'
+        nonce:
           type: string
+          format: UUID
+    Amount:
+      type: object
+      required:
+        - currency
+        - value
+      properties:
+        currency:
+          type: string
+          enum:
+            - "EUR"
+            - "USD"
+        value:
+          type: integer
+          format: int
