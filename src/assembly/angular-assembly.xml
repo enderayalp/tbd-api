@@ -1,0 +1,13 @@
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id>angular</id>
+    <formats>
+        <format>tgz</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/target/client/angular</directory>
+            <outputDirectory>/</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+        </fileSet>
+    </fileSets>
+</assembly>
